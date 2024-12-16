@@ -1,9 +1,9 @@
-package com.example.demo;
+package com.example.demo.service;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class RandomHeartBeat implements HeartBeatSensor{
+public class RandomHeartBeat implements HeartBeatSensor {
 
     @Override
     public int get() {
