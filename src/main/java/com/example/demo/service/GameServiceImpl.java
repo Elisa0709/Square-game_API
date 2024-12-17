@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
-import fr.le_campus_numerique.square_games.engine.Game;
-import fr.le_campus_numerique.square_games.engine.GameFactory;
+import fr.le_campus_numerique.square_games.engine.*;
 import fr.le_campus_numerique.square_games.engine.connectfour.ConnectFourGameFactory;
 import fr.le_campus_numerique.square_games.engine.taquin.TaquinGameFactory;
 import fr.le_campus_numerique.square_games.engine.tictactoe.TicTacToeGameFactory;
@@ -9,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.Collection;
+import java.util.stream.Stream;
+
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -49,5 +51,24 @@ public class GameServiceImpl implements GameService {
     public void deleteGame (UUID id){
         gameMap.remove(id);
     }
+
+    private static Token getTokenWithName(Game game, String tokenName) {
+        return Stream.of(game.getRemainingTokens(), game.getRemovedTokens(), game.getBoard().values())
+                .flatMap(Collection::stream)
+                .filter(t -> t.getName().equals(tokenName))
+                .filter(t -> t.canMove())
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void playTurn(UUID gameId, String tokenName, int x, int y) throws InvalidPositionException {
+        Game game = getGame(gameId);
+        Token token = getTokenWithName(game, tokenName);
+        token.moveTo(new CellPosition(x, y));
+    }
+
+
+
+
 
 }
