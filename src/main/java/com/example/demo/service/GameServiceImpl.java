@@ -43,5 +43,11 @@ public class GameServiceImpl implements GameService {
     public Game getGame (UUID id){
         return gameMap.get(id);
     }
+    public HashMap<UUID, Game> getSavedGames(){
+        return gameMap;
+    }
+    public void deleteGame (UUID id){
+        gameMap.remove(id);
+    }
 
 }

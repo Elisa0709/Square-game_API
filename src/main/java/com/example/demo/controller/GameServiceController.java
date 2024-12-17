@@ -7,6 +7,7 @@ import fr.le_campus_numerique.square_games.engine.GameFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 @RestController
@@ -28,6 +29,15 @@ public class GameServiceController {
 
     }
 
+    @GetMapping("/games")
+    public HashMap<UUID, Game> getSavedGames(){
+        return gameServiceImpl.getSavedGames();
+    }
+
+    @DeleteMapping("/games/{gameId}")
+    public void deleteGame(@PathVariable UUID gameId){
+        gameServiceImpl.deleteGame(gameId);
+    }
 
 
 }
