@@ -4,7 +4,9 @@ import fr.le_campus_numerique.square_games.engine.Game;
 import fr.le_campus_numerique.square_games.engine.GameFactory;
 import fr.le_campus_numerique.square_games.engine.taquin.TaquinGameFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cglib.core.Local;
 
+import java.util.Locale;
 
 
 public class TaquinPlugin implements GamePlugin {
@@ -30,7 +32,12 @@ public class TaquinPlugin implements GamePlugin {
     }
 
     public String getGameType() {
-        return gameType;
+    return gameType;
+    }
+
+    @Override
+    public String getName(Locale language) {
+        return "";
     }
 
 }

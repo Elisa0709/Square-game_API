@@ -6,6 +6,8 @@ import fr.le_campus_numerique.square_games.engine.tictactoe.TicTacToeGameFactory
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @Component
 public class TicTacToePlugin implements GamePlugin {
 
@@ -32,8 +34,8 @@ public class TicTacToePlugin implements GamePlugin {
     }
 
 
-//    @Override
-//    public String getName(Locale language) {
-//        return "";
-//    }
+    @Override
+    public String getName(Locale language) {
+        return "";
+    }
 }
