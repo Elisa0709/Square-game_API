@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.heartbeat;
 
 public interface HeartBeatSensor {
 

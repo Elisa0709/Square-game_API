@@ -4,51 +4,39 @@ import fr.le_campus_numerique.square_games.engine.*;
 import fr.le_campus_numerique.square_games.engine.connectfour.ConnectFourGameFactory;
 import fr.le_campus_numerique.square_games.engine.taquin.TaquinGameFactory;
 import fr.le_campus_numerique.square_games.engine.tictactoe.TicTacToeGameFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.Collection;
+import java.util.*;
 import java.util.stream.Stream;
 
 
 @Service
-public class GameServiceImpl implements GameService {
+public class GameServiceImpl {
     HashMap<UUID, Game> gameMap = new HashMap<>();
 
+    @Autowired
+    List<GamePlugin> gamePluginList;
 
 
-    public Game instanceGame(String gameType, int playerCount, int boardSize){
-        GameFactory gameFactory;
-        Game game;
+    public Game instanceGame(String gameType) {
 
-        switch(gameType){
-            case "tictactoe":
-                gameFactory = new TicTacToeGameFactory();
-                break;
-            case "connect4" :
-                gameFactory = new ConnectFourGameFactory();
-                break;
-            case "15 puzzle" :
-                gameFactory = new TaquinGameFactory();
-                break;
-            default:
-                gameFactory = new TicTacToeGameFactory();
-
-        }
-
-        game = gameFactory.createGame(playerCount, boardSize);
-        gameMap.put(game.getId(), game); //on stock le jeu dans un tableau associatif dont la clé correspond à son ID
-        return game;
+      return gamePluginList.stream()
+                .filter(item -> item.getGameType().equals(gameType))
+                .findFirst()
+                .map( gamePlugin -> gamePlugin.createGame())
+                .orElse(null); //si map est vide
     }
 
-    public Game getGame (UUID id){
+    public Game getGame(UUID id) {
         return gameMap.get(id);
     }
-    public HashMap<UUID, Game> getSavedGames(){
+
+    public HashMap<UUID, Game> getSavedGames() {
         return gameMap;
     }
-    public void deleteGame (UUID id){
+
+    public void deleteGame(UUID id) {
         gameMap.remove(id);
     }
 
@@ -68,7 +56,8 @@ public class GameServiceImpl implements GameService {
     }
 
 
-
-
-
+//    @Override
+//    public String getName(String language) {
+//        return "";
+//    }
 }

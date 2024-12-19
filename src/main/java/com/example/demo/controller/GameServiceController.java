@@ -20,14 +20,13 @@ public class GameServiceController {
 
     @PostMapping("/games")
     public Game createGame(@RequestBody GameCreationParams params){
-        game = gameServiceImpl.instanceGame(params.gameType, params.playerCount, params.boardSize);
+        game = gameServiceImpl.instanceGame(params.gameType);
         return game;
     }
 
     @GetMapping("/games/{gameId}")
     public Object getGame(@PathVariable UUID gameId){
        return gameServiceImpl.getGame(gameId);
-
     }
 
     @GetMapping("/games")

@@ -5,7 +5,14 @@ meta {
 }
 
 put {
-  url: http://localhost:8080/games
-  body: none
+  url: http://localhost:8080/games/9720f892-7d0f-4943-baa0-eeb0a5fe835e/tokens/0/position
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "x":2,
+    "y":1
+  }
 }
