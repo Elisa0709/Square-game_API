@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dao.GameDao;
 import fr.le_campus_numerique.square_games.engine.*;
 import fr.le_campus_numerique.square_games.engine.connectfour.ConnectFourGameFactory;
 import fr.le_campus_numerique.square_games.engine.taquin.TaquinGameFactory;
@@ -13,31 +14,38 @@ import java.util.stream.Stream;
 
 @Service
 public class GameServiceImpl {
-    HashMap<UUID, Game> gameMap = new HashMap<>();
+    //HashMap<UUID, Game> gameMap = new HashMap<>();
 
     @Autowired
     List<GamePlugin> gamePluginList;
 
+    @Autowired
+    GameDao gameDao;
+
 
     public Game instanceGame(String gameType) {
-
-      return gamePluginList.stream()
+        Game game = gamePluginList.stream()
                 .filter(item -> item.getGameType().equals(gameType))
                 .findFirst()
-                .map( gamePlugin -> gamePlugin.createGame())
+                .map(gamePlugin -> gamePlugin.createGame())
                 .orElse(null); //si map est vide
+
+
+        gameDao.addCurrentGame(game);
+        return game;
     }
 
+
     public Game getGame(UUID id) {
-        return gameMap.get(id);
+        return gameDao.getGameById(id);
     }
 
     public HashMap<UUID, Game> getSavedGames() {
-        return gameMap;
+        return gameDao.getCurrentGamesList();
     }
 
     public void deleteGame(UUID id) {
-        gameMap.remove(id);
+        gameDao.deleteGame(id);
     }
 
     private static Token getTokenWithName(Game game, String tokenName) {
@@ -55,9 +63,4 @@ public class GameServiceImpl {
         token.moveTo(new CellPosition(x, y));
     }
 
-
-//    @Override
-//    public String getName(String language) {
-//        return "";
-//    }
 }

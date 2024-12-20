@@ -23,7 +23,6 @@ public class GameCatalogImpl implements GameCatalog {
         this.connectFourGameFactory = new ConnectFourGameFactory();
     }
 
-
     @Override
     public Collection<String> getGameIdentifiers() {
         return List.of(ticTacToeGameFactory.getGameFactoryId(), taquinGameFactory.getGameFactoryId(), connectFourGameFactory.getGameFactoryId());
