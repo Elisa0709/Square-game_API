@@ -1,4 +1,4 @@
-package com.example.demo.dao;
+package com.example.demo.repository;
 
 import fr.le_campus_numerique.square_games.engine.Game;
 import org.springframework.stereotype.Component;
@@ -29,4 +29,6 @@ public class InMemoryGameDao implements GameDao {
     public void addCurrentGame(Game game) {
         currentGamesList.put(game.getId(), game);
     }
+
+
 }
