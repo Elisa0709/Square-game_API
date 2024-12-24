@@ -1,41 +1,43 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.MySQLUserDao;
 import com.example.demo.repository.UserData;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService implements UserServiceInterface {
+public class UserService implements UserServiceInterface{
 
     @Autowired
-    MySQLUserDao userDao;
-
+    UserRepository userRepository;
 
     @Override
-    public void saveUser(UserData entity) {
-        userDao.save(entity);
+    public List<UserData> getAllUsers() {
+        return (List<UserData>) userRepository.findAll();
     }
 
     @Override
-    public UserData findById(int id) {
-        return userDao.findById(id);
+    public UserData update(UserData entity, int id) {
+        if(getUserById(id) != null){
+            return userRepository.save(entity);
+        }
+        return null;
+    }
+    @Override
+    public UserData getUserById(int id) {
+        return userRepository.findById(id).orElse(null); // Doit renvoyer un optionnal donc : orElse
+    }
+    @Override
+    public UserData saveUser(UserData user) {
+        return userRepository.save(user);
+    }
+    @Override
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
     }
 
-    @Override
-    public List<UserData> findAll() {
-        return userDao.findAll();
-    }
 
-    @Override
-    public void update(UserData entity, int id) {
-        userDao.update(entity, id);
-    }
 
-    @Override
-    public void delete(int id) {
-        userDao.delete(id);
-    }
 }

@@ -21,12 +21,12 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public Object getUserById(@PathVariable int userId){
-        return userService.findById(userId);
+        return userService.getUserById(userId);
     }
 
     @GetMapping
     public List<UserData> getAllUsers(){
-        return userService.findAll();
+        return userService.getAllUsers();
     }
 
     @PutMapping("/{userId}")
@@ -36,7 +36,7 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable int userId) {
-        userService.delete(userId);
+        userService.deleteUser(userId);
     }
 
 
