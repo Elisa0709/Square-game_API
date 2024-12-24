@@ -25,8 +25,10 @@ public MySQLUserDao() {
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, entity.getName());
             statement.executeUpdate();
+
         } catch (SQLException e) {
-            e.printStackTrace();        }
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -36,7 +38,7 @@ public MySQLUserDao() {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()){  //déplace le curseur dans le ResultSet vers la ligne suivante et retourne true si une ligne existe, sinon false si le curseur est déjà à la fin des résultats
-                return new UserData(resultSet.getInt("id"), resultSet.getString("name"));
+                return new UserData(resultSet.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +53,7 @@ public MySQLUserDao() {
         try(PreparedStatement statement = connection.prepareStatement(query)){
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                users.add(new UserData(resultSet.getInt("id"), resultSet.getString("name")));
+                users.add(new UserData(resultSet.getString("name")));
             }
             return users;
         } catch (SQLException e) {
@@ -60,11 +62,11 @@ public MySQLUserDao() {
     }
 
     @Override
-    public void update(UserData entity) {
-        String query = "UPDATE users SET name = ?, email = ? WHERE id = ?";
+    public void update(UserData entity, int id) {
+        String query = "UPDATE users SET name = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, entity.getName());
-            statement.setInt(3, entity.getId());
+            statement.setInt(2, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

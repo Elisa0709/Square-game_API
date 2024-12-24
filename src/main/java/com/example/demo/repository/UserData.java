@@ -4,8 +4,10 @@ public class UserData {
     private int id;
     private String name;
 
-    public UserData(int id, String name) {
-        this.id = id;
+    public UserData(){
+
+    }
+    public UserData(String name) {
         this.name = name;
     }
 
@@ -15,7 +17,6 @@ public class UserData {
     public String getName() {
         return this.name;
     }
-
 
 
 }

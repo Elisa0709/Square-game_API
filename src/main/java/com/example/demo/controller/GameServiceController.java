@@ -44,5 +44,4 @@ public class GameServiceController {
         gameServiceImpl.playTurn(gameId, tokenName, params.x, params.y);
     }
 
-
 }
