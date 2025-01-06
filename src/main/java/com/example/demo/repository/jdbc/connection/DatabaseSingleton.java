@@ -1,10 +1,7 @@
-package com.example.demo.repository;
-
-import org.springframework.stereotype.Repository;
+package com.example.demo.repository.jdbc.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DatabaseSingleton {
     // Instance unique du singleton

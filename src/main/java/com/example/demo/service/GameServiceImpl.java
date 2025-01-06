@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.GameDao;
+import com.example.demo.repository.jdbc.connection.GameDao;
 import fr.le_campus_numerique.square_games.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,6 @@ public class GameServiceImpl {
         gameDao.addCurrentGame(game);
         return game;
     }
-
 
     public Game getGame(UUID id) {
         return gameDao.getGameById(id);

@@ -1,6 +1,6 @@
-package com.example.demo.controller.dto;
+package com.example.demo.controller;
 
-import com.example.demo.repository.UserData;
+import com.example.demo.repository.jpa.connection.UserData;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

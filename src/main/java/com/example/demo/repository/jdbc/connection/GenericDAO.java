@@ -1,4 +1,4 @@
-package com.example.demo.repository;
+package com.example.demo.repository.jdbc.connection;
 
 import java.util.List;
 
