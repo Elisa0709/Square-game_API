@@ -4,7 +4,7 @@ package com.example.demo.repository.jpa.connection;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_data")
 public class UserData {
 
     @Id
