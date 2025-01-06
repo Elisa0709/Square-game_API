@@ -1,6 +1,6 @@
 package com.example.demo.repository.jdbc.connection;
 
-import com.example.demo.repository.jpa.connection.UserData;
+import com.example.demo.repository.jpa.connection.UserEntity;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class MySQLUserDao implements GenericDAO<UserData> {
+public class MySQLUserDao implements GenericDAO<UserEntity> {
 
 private Connection connection;
 
@@ -21,7 +21,7 @@ public MySQLUserDao() {
 
 
     @Override
-    public void save(UserData entity) {
+    public void save(UserEntity entity) {
         String query = "INSERT INTO users (name) VALUES (?)";
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, entity.getName());
@@ -33,13 +33,13 @@ public MySQLUserDao() {
     }
 
     @Override
-    public UserData findById(int id) {
+    public UserEntity findById(int id) {
         String query = "SELECT * FROM users WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if(resultSet.next()){  //déplace le curseur dans le ResultSet vers la ligne suivante et retourne true si une ligne existe, sinon false si le curseur est déjà à la fin des résultats
-                return new UserData(resultSet.getString("name"));
+                return new UserEntity(resultSet.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,13 +48,13 @@ public MySQLUserDao() {
     }
 
     @Override
-    public List<UserData> findAll() {
-        List<UserData> users = new ArrayList<>();
+    public List<UserEntity> findAll() {
+        List<UserEntity> users = new ArrayList<>();
         String query = "SELECT * FROM users";
         try(PreparedStatement statement = connection.prepareStatement(query)){
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                users.add(new UserData(resultSet.getString("name")));
+                users.add(new UserEntity(resultSet.getString("name")));
             }
             return users;
         } catch (SQLException e) {
@@ -63,7 +63,7 @@ public MySQLUserDao() {
     }
 
     @Override
-    public void update(UserData entity, int id) {
+    public void update(UserEntity entity, int id) {
         String query = "UPDATE users SET name = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, entity.getName());

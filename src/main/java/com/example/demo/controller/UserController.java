@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.repository.jpa.connection.UserData;
+import com.example.demo.repository.jpa.connection.UserEntity;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public void saveUser(@RequestBody UserData userData) {
+    public void saveUser(@RequestBody UserEntity userData) {
         userService.saveUser(userData);
     }
 
@@ -25,12 +25,12 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserData> getAllUsers(){
+    public List<UserEntity> getAllUsers(){
         return userService.getAllUsers();
     }
 
     @PutMapping("/{userId}")
-    public void updateUser(@RequestBody UserData userData, @PathVariable int userId) {
+    public void updateUser(@RequestBody UserEntity userData, @PathVariable int userId) {
         userService.update(userData, userId);
     }
 

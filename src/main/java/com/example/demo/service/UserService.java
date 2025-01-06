@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.jpa.connection.UserData;
+import com.example.demo.repository.jpa.connection.UserEntity;
 import com.example.demo.repository.jpa.connection.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,23 +14,23 @@ public class UserService implements UserServiceInterface{
     UserRepository userRepository;
 
     @Override
-    public List<UserData> getAllUsers() {
-        return (List<UserData>) userRepository.findAll();
+    public List<UserEntity> getAllUsers() {
+        return (List<UserEntity>) userRepository.findAll();
     }
 
     @Override
-    public UserData update(UserData entity, int id) {
+    public UserEntity update(UserEntity entity, int id) {
         if(getUserById(id) != null){
             return userRepository.save(entity);
         }
         return null;
     }
     @Override
-    public UserData getUserById(int id) {
+    public UserEntity getUserById(int id) {
         return userRepository.findById(id).orElse(null); // Doit renvoyer un optionnal donc : orElse
     }
     @Override
-    public UserData saveUser(UserData user) {
+    public UserEntity saveUser(UserEntity user) {
         return userRepository.save(user);
     }
     @Override

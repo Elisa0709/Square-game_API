@@ -4,8 +4,8 @@ package com.example.demo.repository.jpa.connection;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users_data")
-public class UserData {
+@Table(name = "users")
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,13 +14,13 @@ public class UserData {
     @Column(name = "name", nullable = false)
     private String name;
 
-    public UserData(){
+    public UserEntity(){
 
     }
-
-    public UserData(String name) {
+    public UserEntity(String name) {
         this.name = name;
     }
+
 
     public int getId() {
         return this.id;

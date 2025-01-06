@@ -1,10 +1,10 @@
 package com.example.demo.repository.jpa.connection;
 
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends CrudRepository<UserEntity, Integer> {
-
+public interface GameRepository extends CrudRepository<GameEntity, Integer> {
 
 }
