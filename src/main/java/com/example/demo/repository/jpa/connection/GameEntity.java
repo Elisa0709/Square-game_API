@@ -9,12 +9,13 @@ import java.util.UUID;
 @Table(name="games")
 public class GameEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    @Column(name = "game_id")
-    private UUID gameId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(name = "type")
+    private String type;
 
     @Column(name = "board_size")
     private int boardSize;
@@ -25,7 +26,28 @@ public class GameEntity {
     @OneToMany(mappedBy = "game")
     private List<PlayerEntity> players;
 
+    public GameEntity() {
 
+    }
+    public GameEntity(int boardSize, String status, String type) {
+        this.boardSize = boardSize;
+        this.status = status;
+        this.type = type;
+    }
+    public UUID getId() {
+        return id;
+    }
+    public int getBoardSize() {
+        return boardSize;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public List<PlayerEntity> getPlayers() {
+        return players;
+    }
 
-
+    public String getType() {
+        return type;
+    }
 }

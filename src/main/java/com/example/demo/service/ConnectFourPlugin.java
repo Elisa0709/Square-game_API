@@ -18,7 +18,6 @@ public class ConnectFourPlugin implements GamePlugin {
     int boardSize;
 
     @Value("${player.number.default}")
-    //@Value("#{new Integer('${player.number.default}')}")
     int playerCount;
 
     String gameType;

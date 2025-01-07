@@ -7,14 +7,11 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name="players")
+@Table(name = "players")
 public class PlayerEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column( name = "player_id")
-    private UUID playerId;
+//    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "player_type")
     private String playerType;
@@ -23,8 +20,31 @@ public class PlayerEntity {
     @JoinColumn(name = "game_id")
     private GameEntity game;
 
-    @OneToMany(mappedBy = "player")
-    private List<GameEntity> games;
+    @OneToMany
+    @JoinColumn(name = "token_id")
+    private List<TokenEntity> tokens;
+
+
+    public PlayerEntity() {
+
+    }
+    public PlayerEntity(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+
+
+    public String getPlayerType() {
+        return playerType;
+    }
+
+    public GameEntity getGameId() {
+        return game;
+    }
 
 
 }

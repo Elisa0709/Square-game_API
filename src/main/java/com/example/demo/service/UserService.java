@@ -25,10 +25,12 @@ public class UserService implements UserServiceInterface{
         }
         return null;
     }
+
     @Override
     public UserEntity getUserById(int id) {
         return userRepository.findById(id).orElse(null); // Doit renvoyer un optionnal donc : orElse
     }
+
     @Override
     public UserEntity saveUser(UserEntity user) {
         return userRepository.save(user);
@@ -37,7 +39,5 @@ public class UserService implements UserServiceInterface{
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
-
-
 
 }
