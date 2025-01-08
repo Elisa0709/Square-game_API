@@ -36,45 +36,39 @@ public class GameServiceImpl {
                 .orElse(null); //si map est vide
         gameDao.addCurrentGame(game); //ici utiliser save de bdd entité game
 
-        saveGameInDb(game);
-        savePlayersInDb(game);
+        saveGameDataInDb(game);
 
         return game;
     }
 
-    private void saveGameInDb(Game game) {
+    private void saveGameDataInDb(Game game) {
         GameEntity gameEntity = new GameEntity(
                 game.getBoardSize(),
                 game.getStatus().name(),
                 game.getFactoryId()
         );
-
         gameRepository.save(gameEntity);
 
-
-        //je veu récupérer chaque player qui a été créé avec le game juste en haut, et enregistrer chaque player 1 par 1
-        //dans la bdd via des playerEntity
-        //pareil pour les tokens
-
-        //???faire un map de getPlayerIds et pour chacun des player instancier une playerEntity
-
-
-//        playerRepository.save(game.getPlayerIds());
-
-        //enregistrer les 2 utilisateurs de game dans la db
-        //créer les token de game dans la db
+        savePlayersInDb(game, gameEntity);
+        //saveTokensInDb(game);
     }
-    private void savePlayersInDb(Game game){
-        Set<UUID> playersIds = game.getPlayerIds();
-        for (UUID playerId : playersIds) {
-            PlayerEntity playerEntity = new PlayerEntity(playerId);
-            System.out.println(playerEntity);
-            playerRepository.save(playerEntity);
 
-            //pour chaque itération on transforme le resultat n playerEntity
-            //et on fait playerRepository.save(playerEntity)
+    private void savePlayersInDb(Game game, GameEntity gameEntity) {
+        Set<UUID> playersIds = game.getPlayerIds();
+
+        for (UUID playerId : playersIds) {
+            PlayerEntity playerEntity = new PlayerEntity(playerId, gameEntity);
+
+            playerRepository.save(playerEntity);
         }
     }
+    private void saveTokensInDb(Game game){
+        //accéder aux tokens
+        //trier les tokens remain des autres ?
+        //les mettre dans une entity
+        //les save avec token repository
+    }
+
 
     public Game getGame(UUID id) {
         return gameDao.getGameById(id);

@@ -17,7 +17,7 @@ public class PlayerEntity {
     private String playerType;
 
     @ManyToOne
-    @JoinColumn(name = "game_id")
+    @JoinColumn(name = "game_id", nullable = false)
     private GameEntity game;
 
     @OneToMany
@@ -28,8 +28,9 @@ public class PlayerEntity {
     public PlayerEntity() {
 
     }
-    public PlayerEntity(UUID id) {
+    public PlayerEntity(UUID id, GameEntity game) {
         this.id = id;
+        this.game = game;
     }
 
     public UUID getId() {
