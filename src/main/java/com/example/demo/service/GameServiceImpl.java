@@ -36,12 +36,13 @@ public class GameServiceImpl {
                 .orElse(null); //si map est vide
         gameDao.addCurrentGame(game); //ici utiliser save de bdd entité game
 
-        saveGame(game);
+        saveGameInDb(game);
+        savePlayersInDb(game);
 
         return game;
     }
 
-    private void saveGame(Game game) {
+    private void saveGameInDb(Game game) {
         GameEntity gameEntity = new GameEntity(
                 game.getBoardSize(),
                 game.getStatus().name(),
@@ -50,6 +51,7 @@ public class GameServiceImpl {
 
         gameRepository.save(gameEntity);
 
+
         //je veu récupérer chaque player qui a été créé avec le game juste en haut, et enregistrer chaque player 1 par 1
         //dans la bdd via des playerEntity
         //pareil pour les tokens
@@ -57,21 +59,21 @@ public class GameServiceImpl {
         //???faire un map de getPlayerIds et pour chacun des player instancier une playerEntity
 
 
-        for (int i = 0; i < game.getPlayerIds().size(); i++) {
-            //pour chaque itération on transforme le resultat n playerEntity
-            //et on fait playerRepository.save(playerEntity)
-        }
-
-
-
 //        playerRepository.save(game.getPlayerIds());
-
-
-
-
 
         //enregistrer les 2 utilisateurs de game dans la db
         //créer les token de game dans la db
+    }
+    private void savePlayersInDb(Game game){
+        Set<UUID> playersIds = game.getPlayerIds();
+        for (UUID playerId : playersIds) {
+            PlayerEntity playerEntity = new PlayerEntity(playerId);
+            System.out.println(playerEntity);
+            playerRepository.save(playerEntity);
+
+            //pour chaque itération on transforme le resultat n playerEntity
+            //et on fait playerRepository.save(playerEntity)
+        }
     }
 
     public Game getGame(UUID id) {
