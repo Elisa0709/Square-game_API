@@ -26,6 +26,9 @@ public class GameEntity {
     @OneToMany(mappedBy = "game")
     private List<PlayerEntity> players;
 
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL) //grâce à cascade, si on supprime la table game ça supprimera aussi les tokens qui lui sont associé
+    private List<TokenEntity> tokens ;
+
     public GameEntity() {
 
     }
@@ -34,6 +37,7 @@ public class GameEntity {
         this.status = status;
         this.type = type;
     }
+
     public UUID getId() {
         return id;
     }

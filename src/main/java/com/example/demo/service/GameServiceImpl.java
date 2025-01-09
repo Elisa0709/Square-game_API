@@ -23,6 +23,9 @@ public class GameServiceImpl {
     GameDALImpl gameDAL;    //DAL = data access layer
 
 
+
+
+
     public Game instanceGame(String gameType) {
         Game game = gamePluginList.stream()
                 .filter(item -> item.getGameType().equals(gameType))
@@ -36,16 +39,25 @@ public class GameServiceImpl {
     }
 
 
-    public Game getGame(UUID id) {
-        return gameDao.getGameById(id);
+    public GameEntity getGameById(UUID id) {
+
+        return gameDAL.getGameById(id);
     }
 
-    public HashMap<UUID, Game> getSavedGames() {
-        return gameDao.getCurrentGamesList();
+    public Iterable<GameEntity> getSavedGames() {
+        return gameDAL.getAllGames();
     }
 
-    public void deleteGame(UUID id) {
-        gameDao.deleteGame(id);
+    public void deleteGameById(UUID id) {
+        gameDAL.deleteGameByIdInDb(id);
+    }
+
+    public void deleteAllGames() {
+        gameDAL.deleteAllGame();
+    }
+
+    public Collection<TokenEntity> getTokensByName(UUID gameId, String name) {
+        return gameDAL.getTokensByName(gameId, name);
     }
 
     private static Token getTokenWithName(Game game, String tokenName) {
@@ -57,8 +69,14 @@ public class GameServiceImpl {
                 .orElse(null);
     }
 
-    public void playTurn(UUID gameId, String tokenName, int x, int y) throws InvalidPositionException {
-        Game game = getGame(gameId);
+    public void playTurn(GameEntity gameEntity, String tokenName, int x, int y) throws InvalidPositionException {
+
+        //instancier un jeu (game engine) à partir des données du jeu dans la bdd
+
+
+        Game game =
+
+        Game game = getGameById(gameId);
         Token token = getTokenWithName(game, tokenName);
         token.moveTo(new CellPosition(x, y));
     }

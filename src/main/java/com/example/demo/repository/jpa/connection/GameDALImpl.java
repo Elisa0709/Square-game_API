@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.UUID;
 
 @Repository
 public class GameDALImpl implements GameDAL {
@@ -30,17 +31,16 @@ public class GameDALImpl implements GameDAL {
         saveTokensInDb(game, gameEntity);
     }
 
-
-    private void saveTokensInDb(Game game, GameEntity gameEntity) {
+    public void saveTokensInDb(Game game, GameEntity gameEntity) {
 
         //stocker les remainingtokens (game.getRemainingTokens)
-
         Collection<Token> remainingTokens = game.getRemainingTokens();
 
         for (Token token : remainingTokens) {  //remaining = restant, disponible
             TokenEntity tokenEntity = new TokenEntity(
                     token.getName(),
-                    false
+                    false,
+                    gameEntity
             );
 
             tokenEntity.setOwner(token.getOwnerId());
@@ -48,11 +48,12 @@ public class GameDALImpl implements GameDAL {
         }
 
         //stocker les removed tokens
-        Collection<Token> removedTokens = game.getRemovedTokens();
+        Collection<Token> removedTokens = game.getBoard().values();
         for (Token token : removedTokens) {
             TokenEntity tokenEntity = new TokenEntity(
                     token.getName(),
-                    true
+                    true,
+                    gameEntity
             );
             tokenEntity.setOwner(token.getOwnerId());
             tokenEntity.setPositionX(token.getPosition().x());
@@ -60,6 +61,43 @@ public class GameDALImpl implements GameDAL {
             tokenRepository.save(tokenEntity);
         }
     }
+
+    public void deleteGameByIdInDb(UUID id){
+        gameRepository.deleteById(id);
+    };
+
+    public void deleteAllGame(){
+        gameRepository.deleteAll();
+    }
+
+    public Iterable<GameEntity> getAllGames(){
+       return gameRepository.findAll();
+    }
+
+    public GameEntity getGameById(UUID id){
+        return gameRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Collection<TokenEntity> getTokensByName(UUID gameId, String name) {
+        return tokenRepository.findTokensByNameAndGameId(name, gameId);
+    }
+
+    @Override
+    public TokenEntity findOneToken(String name, UUID gameId) {
+       return tokenRepository.findOneToken(name, gameId);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     //private void savePlayersInDb(Game game, GameEntity gameEntity) {

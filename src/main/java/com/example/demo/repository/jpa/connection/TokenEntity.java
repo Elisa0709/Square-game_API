@@ -29,6 +29,10 @@ public class TokenEntity {
     @Column(name = "ownerId")
     private UUID ownerId;
 
+    @ManyToOne
+    @JoinColumn(name = "game_id", referencedColumnName = "id")
+    private GameEntity game;
+
 //    @ManyToOne
 //    @JoinColumn(name = "player_id", referencedColumnName = "id")
 //    private PlayerEntity player;
@@ -37,9 +41,10 @@ public class TokenEntity {
     public TokenEntity() {
 
     }
-    public TokenEntity(String name, boolean isPlayed) {
+    public TokenEntity(String name, boolean isPlayed, GameEntity game) {
         this.name = name;
         this.isPlayed = isPlayed;
+        this.game = game;
     }
 
     public String getName() {
@@ -54,15 +59,18 @@ public class TokenEntity {
     public boolean getIsPlayed() {
         return isPlayed;
     }
+
 //    public PlayerEntity getPlayer() {
 //        return player;
 //    }
+
     public void setPositionX(int x) {
         this.x = x;
     }
     public void setPositionY(int y) {
         this.y = y;
     }
+
     public void setOwner(Optional<UUID> ownerId) {
         this.ownerId = ownerId.orElse(null);
     }
