@@ -10,4 +10,5 @@ public interface GameDao {
     public HashMap<UUID, Game> getCurrentGamesList();
     public void deleteGame(UUID id);
     public void addCurrentGame(Game game);
+
 }

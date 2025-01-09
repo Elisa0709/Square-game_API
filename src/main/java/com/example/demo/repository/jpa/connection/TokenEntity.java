@@ -3,6 +3,7 @@ package com.example.demo.repository.jpa.connection;
 
 import jakarta.persistence.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -10,8 +11,8 @@ import java.util.UUID;
 public class TokenEntity {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(name = "name")
     private String name;
@@ -25,23 +26,22 @@ public class TokenEntity {
     @Column(name = "is_played")
     private boolean isPlayed;
 
-    @ManyToOne
-    @JoinColumn(name = "player_id", referencedColumnName = "id")
-    private PlayerEntity player;
+    @Column(name = "ownerId")
+    private UUID ownerId;
+
+//    @ManyToOne
+//    @JoinColumn(name = "player_id", referencedColumnName = "id")
+//    private PlayerEntity player;
 
 
     public TokenEntity() {
 
     }
-    public TokenEntity(String name, int x, int y, boolean isPlayed) {
+    public TokenEntity(String name, boolean isPlayed) {
         this.name = name;
-        this.x = x;
-        this.y = y;
         this.isPlayed = isPlayed;
     }
-    public UUID getId() {
-        return id;
-    }
+
     public String getName() {
         return name;
     }
@@ -54,8 +54,20 @@ public class TokenEntity {
     public boolean getIsPlayed() {
         return isPlayed;
     }
-    public PlayerEntity getPlayer() {
-        return player;
+//    public PlayerEntity getPlayer() {
+//        return player;
+//    }
+    public void setPositionX(int x) {
+        this.x = x;
     }
+    public void setPositionY(int y) {
+        this.y = y;
+    }
+    public void setOwner(Optional<UUID> ownerId) {
+        this.ownerId = ownerId.orElse(null);
+    }
+    //On lui donne un optional en paramètre mais on veut récupérer un UUID à la fin
+    //Si l'optionnal contient un UUID il le set
+    //sinon (orElse) il met null
 
 }

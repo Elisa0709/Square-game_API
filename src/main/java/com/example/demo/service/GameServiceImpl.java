@@ -17,11 +17,10 @@ public class GameServiceImpl {
     List<GamePlugin> gamePluginList;
 
     @Autowired
-    GameDao gameDao;
+    GameDao gameDao; //à supprimer plus tard
+
     @Autowired
-    GameRepository gameRepository;
-    @Autowired
-    PlayerRepository playerRepository;
+    GameDALImpl gameDAL;    //DAL = data access layer
 
 
     public Game instanceGame(String gameType) {
@@ -31,58 +30,10 @@ public class GameServiceImpl {
                 .map(gamePlugin -> gamePlugin.createGame())
                 .orElse(null); //si map est vide
 
-        gameDao.addCurrentGame(game);
-
-        saveGameDataInDb(game);
+        gameDAL.saveGameDataInDb(game);
 
         return game;
     }
-
-    private void saveGameDataInDb(Game game) {
-        GameEntity gameEntity = new GameEntity(
-                game.getBoardSize(),
-                game.getStatus().name(),
-                game.getFactoryId()
-        );
-        gameRepository.save(gameEntity);
-
-        savePlayersInDb(game, gameEntity);
-        //saveTokensInDb(game);
-    }
-
-    private void savePlayersInDb(Game game, GameEntity gameEntity) {
-        Set<UUID> playersIds = game.getPlayerIds();
-
-        for (UUID playerId : playersIds) {
-            PlayerEntity playerEntity = new PlayerEntity(playerId, gameEntity);
-
-            playerRepository.save(playerEntity);
-        }
-    }
-
-
-//
-//    private void saveTokensInDb(Game game, GameEntity gameEntity){
-//
-//        //stocker les remainingtokens (game.getRemainingTokens)
-//
-////        Collection<Token> remainingTokens = game.getRemainingTokens();
-////
-////        for (Token token : remainingTokens) {
-////            TokenEntity tokenEntity = new TokenEntity(
-////                    token.getName(),
-////
-////            );
-//       // }
-//
-//
-//        //stocker les autres tokens
-//
-//        //accéder aux tokens
-//        //trier les tokens remain des autres ?
-//        //les mettre dans une entity
-//        //les save avec token repository
-//    }
 
 
     public Game getGame(UUID id) {
@@ -109,11 +60,8 @@ public class GameServiceImpl {
     public void playTurn(UUID gameId, String tokenName, int x, int y) throws InvalidPositionException {
         Game game = getGame(gameId);
         Token token = getTokenWithName(game, tokenName);
-        token.moveTo(new CellPosition( x, y));
+        token.moveTo(new CellPosition(x, y));
     }
-
-
-
 
 
 }
