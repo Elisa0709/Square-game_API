@@ -1,10 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.repository.jdbc.connection.GameDao;
-import com.example.demo.repository.jpa.connection.GameEntity;
-import com.example.demo.repository.jpa.connection.GameRepository;
-import com.example.demo.repository.jpa.connection.PlayerEntity;
-import com.example.demo.repository.jpa.connection.PlayerRepository;
+import com.example.demo.repository.jpa.connection.*;
 import fr.le_campus_numerique.square_games.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +18,6 @@ public class GameServiceImpl {
 
     @Autowired
     GameDao gameDao;
-
     @Autowired
     GameRepository gameRepository;
     @Autowired
@@ -34,7 +30,8 @@ public class GameServiceImpl {
                 .findFirst()
                 .map(gamePlugin -> gamePlugin.createGame())
                 .orElse(null); //si map est vide
-        gameDao.addCurrentGame(game); //ici utiliser save de bdd entité game
+
+        gameDao.addCurrentGame(game);
 
         saveGameDataInDb(game);
 
@@ -62,12 +59,30 @@ public class GameServiceImpl {
             playerRepository.save(playerEntity);
         }
     }
-    private void saveTokensInDb(Game game){
-        //accéder aux tokens
-        //trier les tokens remain des autres ?
-        //les mettre dans une entity
-        //les save avec token repository
-    }
+
+
+//
+//    private void saveTokensInDb(Game game, GameEntity gameEntity){
+//
+//        //stocker les remainingtokens (game.getRemainingTokens)
+//
+////        Collection<Token> remainingTokens = game.getRemainingTokens();
+////
+////        for (Token token : remainingTokens) {
+////            TokenEntity tokenEntity = new TokenEntity(
+////                    token.getName(),
+////
+////            );
+//       // }
+//
+//
+//        //stocker les autres tokens
+//
+//        //accéder aux tokens
+//        //trier les tokens remain des autres ?
+//        //les mettre dans une entity
+//        //les save avec token repository
+//    }
 
 
     public Game getGame(UUID id) {

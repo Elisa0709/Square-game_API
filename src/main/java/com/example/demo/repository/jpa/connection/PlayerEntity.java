@@ -17,7 +17,7 @@ public class PlayerEntity {
     private String playerType;
 
     @ManyToOne
-    @JoinColumn(name = "game_id", nullable = false)
+    @JoinColumn(name = "game_id", referencedColumnName = "id")
     private GameEntity game;
 
     @OneToMany
