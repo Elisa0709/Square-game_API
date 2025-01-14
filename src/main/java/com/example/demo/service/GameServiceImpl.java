@@ -69,17 +69,17 @@ public class GameServiceImpl {
                 .orElse(null);
     }
 
-    public void playTurn(GameEntity gameEntity, String tokenName, int x, int y) throws InvalidPositionException {
-
-        //instancier un jeu (game engine) à partir des données du jeu dans la bdd
-
-
-        Game game =
-
-        Game game = getGameById(gameId);
-        Token token = getTokenWithName(game, tokenName);
-        token.moveTo(new CellPosition(x, y));
-    }
+//    public void playTurn(GameEntity gameEntity, String tokenName, int x, int y) throws InvalidPositionException {
+//
+//        //instancier un jeu (game engine) à partir des données du jeu dans la bdd
+//
+//
+//        Game game =
+//
+//        Game game = getGameById(gameId);
+//        Token token = getTokenWithName(game, tokenName);
+//        token.moveTo(new CellPosition(x, y));
+//    }
 
 
 }
