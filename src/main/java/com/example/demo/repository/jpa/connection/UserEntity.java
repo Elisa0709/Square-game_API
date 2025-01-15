@@ -14,6 +14,16 @@ public class UserEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String roles;
+
+
     public UserEntity(){
 
     }
@@ -27,6 +37,12 @@ public class UserEntity {
 
     public String getName() {
         return this.name;
+    }
+    public String getUsername() {
+        return this.username;
+    }
+    public String getPassword() {
+        return this.password;
     }
 
 
